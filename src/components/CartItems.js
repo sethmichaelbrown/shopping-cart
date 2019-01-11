@@ -1,5 +1,7 @@
 import React from 'react'
 import CartItem from  "./CartItem"
+import Total from  "./Total"
+
 
 const CartItems = (props) => {
 
@@ -15,7 +17,9 @@ const CartItems = (props) => {
             <div className="col-md-2">Quantity</div>
           </div>
         </div>
+        
         {props.cartItemsList.map(item => <div className="list-group-item"><CartItem product={item}/></div>) }
+        <Total total={props.total}/>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ import Header from  './components/Header'
 import Footer from  './components/Footer'
 import CartItems from  './components/CartItems'
 import AddItem from  './components/AddItem'
+import Total from  './components/Total'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 class App extends Component {
@@ -22,7 +23,8 @@ class App extends Component {
       { id: 46, name: 'Intelligent Leather Clock', priceInCents: 2999 },
       { id: 47, name: 'Ergonomic Bronze Lamp', priceInCents: 40000 },
       { id: 48, name: 'Awesome Leather Shoes', priceInCents: 3990 },
-    ]
+    ],
+    total: 0
   }
 
   handleSubmit = (event) => {
@@ -54,6 +56,16 @@ class App extends Component {
         updateItem.quantity = newQuantity
       }
 
+      const subTotal = this.state.cartItemsList.map(item => {
+        let price = parseInt(item.product.priceInCents)
+        let quantity = parseInt(item.quantity)
+        return ((price * quantity)/100)
+      })
+      
+      const cartTotal = subTotal.reduce((accum, el) => accum + el, 0)
+      newState.total = cartTotal.toFixed(2)
+
+
       this.setState(newState)
 
     }
@@ -80,7 +92,8 @@ class App extends Component {
     return (
       <div className="App">
         <Header title="Shopping Cart"/>
-        <CartItems cartItemsList={this.state.cartItemsList}/>
+        <CartItems 
+          cartItemsList={this.state.cartItemsList} total={this.state.total}/>
         <AddItem 
           productList={this.state.products} 
           handleQuantity={this.handleQuantity} 
