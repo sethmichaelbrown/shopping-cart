@@ -28,44 +28,41 @@ class App extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    let quantity = parseInt(event.target.quantity.value)
-    let select = event.target.select.value
+    
+    const quantity = parseInt(event.target.quantity.value)
+    const select = event.target.select.value
+    const newState = {...this.state} 
+    const findItemNS = this.state.cartItemsList.find(item => (item.product.name === select))
+    const productFind = this.state.products.find(item => item.name === select)
+    
+    const newItem = {
+      id: this.state.cartItemsList.length,
+      product:{
+        id: productFind.id,
+        name: productFind.name,
+        priceInCents: productFind.priceInCents
+      },
+      quantity: quantity
+    }
 
-      const productFind = this.state.products.find(item => item.name === select)
-      const newItem = {
-        id: this.state.cartItemsList.length,
-        product:{
-          id: productFind.id,
-          name: productFind.name,
-          priceInCents: productFind.priceInCents
-        },
-        quantity: quantity
-      }
-      
-      const newState = {...this.state} 
-      const findItemNS = this.state.cartItemsList.find(item => (item.product.name === select))
+    if(!findItemNS){
+      newState.cartItemsList.push(newItem)
+    }
+    
+    else{
+      const updateItem =  this.state.cartItemsList.find(item => (item.product.name === select))
+      updateItem.quantity = updateItem.quantity + quantity
+    }
 
-      if(!findItemNS){
-        newState.cartItemsList.push(newItem)
-      }
-      else{
-        const updateItem =  this.state.cartItemsList.find(item => (item.product.name === select))
-        let newQuantity = updateItem.quantity + quantity
-        updateItem.quantity = newQuantity
-      }
+    const subTotal = this.state.cartItemsList.map(item => {
+      let price = parseInt(item.product.priceInCents)
+      let quantity = parseInt(item.quantity)
+      return ((price * quantity)/100)
+    })
+    
+    newState.total = (subTotal.reduce((accum, el) => accum + el, 0)).toFixed(2)
 
-      const subTotal = this.state.cartItemsList.map(item => {
-        let price = parseInt(item.product.priceInCents)
-        let quantity = parseInt(item.quantity)
-        return ((price * quantity)/100)
-      })
-      
-      const cartTotal = subTotal.reduce((accum, el) => accum + el, 0)
-      newState.total = cartTotal.toFixed(2)
-
-
-      this.setState(newState)
-
+    this.setState(newState)
   }
 
 
