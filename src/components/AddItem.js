@@ -6,9 +6,9 @@ class AddItem extends Component {
         return (
         <div className="AddItem container">        
             <form onSubmit={this.props.handleSubmit}>
-                <div className="form-group ">
+                <div className="form-group mt-2">
                     <label htmlFor="select-item">Select Item</label>
-                        <select className="form-control col-md-8" id="select-item" onChange={this.props.handleItem}>
+                        <select className="form-control col-md-8" id="select" onChange={this.props.handleItem}>
                             <option>Select an option...</option>
                             {this.props.productList.map(item => <option>{item.name}</option>)}
                         </select>

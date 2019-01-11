@@ -27,7 +27,40 @@ class App extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    console.log(this.state)
+    let quantity = parseInt(event.target.quantity.value)
+    let select = event.target.select.value
+
+    if(quantity && select){
+      const productFind = this.state.products.find(item => item.name === select)
+      const newItem = {
+        id: this.state.cartItemsList.length,
+        product:{
+          id: productFind.id,
+          name: productFind.name,
+          priceInCents: productFind.priceInCents
+        },
+        quantity: quantity
+      }
+      
+      const newState = {...this.state} 
+      const findItemNS = this.state.cartItemsList.find(item => (item.product.name === select))
+
+      if(!findItemNS){
+        newState.cartItemsList.push(newItem)
+      }
+      else{
+        const updateItem =  this.state.cartItemsList.find(item => (item.product.name === select))
+        let newQuantity = updateItem.quantity + quantity
+        updateItem.quantity = newQuantity
+      }
+
+      this.setState(newState)
+
+    }
+    else{
+      console.log("Error!")
+    }
+
   }
 
   handleItem = (event) => {
@@ -44,16 +77,15 @@ class App extends Component {
 
 
   render() {
-
     return (
       <div className="App">
         <Header title="Shopping Cart"/>
         <CartItems cartItemsList={this.state.cartItemsList}/>
         <AddItem 
           productList={this.state.products} 
-          handleQuantity={this.state.handleQuantity} 
-          handleItem={this.state.handleItem} 
-          handleSubmit={this.state.handleSubmit}/>
+          handleQuantity={this.handleQuantity} 
+          handleItem={this.handleItem} 
+          handleSubmit={this.handleSubmit}/>
         <Footer copyright="2019"/>
       </div>
     );
