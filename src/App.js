@@ -3,7 +3,6 @@ import Header from  './components/Header'
 import Footer from  './components/Footer'
 import CartItems from  './components/CartItems'
 import AddItem from  './components/AddItem'
-import Total from  './components/Total'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 class App extends Component {
