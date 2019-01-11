@@ -31,7 +31,6 @@ class App extends Component {
     let quantity = parseInt(event.target.quantity.value)
     let select = event.target.select.value
 
-    if(quantity && select){
       const productFind = this.state.products.find(item => item.name === select)
       const newItem = {
         id: this.state.cartItemsList.length,
@@ -67,24 +66,7 @@ class App extends Component {
 
       this.setState(newState)
 
-    }
-    else{
-      console.log("Error!")
-    }
-
   }
-
-  handleItem = (event) => {
-    let newState = {...this.state}
-    newState.itemAdd = event.target.value
-    this.setState(newState)
-  }
-
-  handleQuantity = (event) => {
-    let newState = {...this.state}
-    newState.quantity = event.target.value
-    this.setState(newState)
-  } 
 
 
   render() {
@@ -95,8 +77,6 @@ class App extends Component {
           cartItemsList={this.state.cartItemsList} total={this.state.total}/>
         <AddItem 
           productList={this.state.products} 
-          handleQuantity={this.handleQuantity} 
-          handleItem={this.handleItem} 
           handleSubmit={this.handleSubmit}/>
         <Footer copyright="2019"/>
       </div>
